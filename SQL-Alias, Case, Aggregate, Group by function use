@@ -1,0 +1,106 @@
+create table students_grades
+(
+	ID int identity(1,1),
+	NAME varchar(50),
+	SCORE int
+)
+
+select * from students_grades
+
+insert into students_grades values ('Simisola', 60)
+insert into students_grades values ('Ivan', 80)
+insert into students_grades values ('Metodija', 52)
+insert into students_grades values ('Callum', 98)
+insert into students_grades values ('Leia', 84)
+insert into students_grades values ('Aparecida', 82)
+insert into students_grades values ('Ursula', 69)
+insert into students_grades values ('Ramazan', 78)
+insert into students_grades values ('Corona', 87)
+insert into students_grades values ('Alise', 57)
+insert into students_grades values ('Galadriel', 89)
+insert into students_grades values ('Merel', 99)
+insert into students_grades values ('Cherice', 55)
+insert into students_grades values ('Nithya', 81)
+insert into students_grades values ('El?ad', 71)
+insert into students_grades values ('Liisi', 90)
+insert into students_grades values ('Johanna', 90)
+insert into students_grades values ('Anfisa', 90)
+insert into students_grades values ('Ry?suke', 97)
+insert into students_grades values ('Sakchai', 61)
+insert into students_grades values ('Elbert', 63)
+insert into students_grades values ('Katelyn', 51)
+
+--Q1. show me a result, students will get pass when they scored 60 or above, otherwise failed
+
+select
+		students_grades=	 case 
+				  when score >=60 then 'Pass'
+				  else 'Failed'
+			 end,
+
+* from students_grades
+
+--Q2. each result where score will A+ when students get 80 or above, as like A-, B, B-, C, C-, and finally below 40 failed
+
+select
+	   Name,
+	   SCORE,
+		     case
+						when SCORE >=80 then 'A+'
+						when SCORE >=75 then 'A'
+						when SCORE >=70 then 'A-'
+						when SCORE >=65 then 'B+'
+						when SCORE >=60 then 'B'
+						when SCORE >=50 then 'B-'
+						when SCORE >=55 then 'C+'
+						when SCORE >=50 then 'C'
+						when SCORE >=45 then 'C-'
+						when SCORE >=40 then 'D'
+						else 'Failed'
+					end as Grade
+from students_grades
+
+--Q3. after question 2 show them from lowest score
+
+select 
+	   Name,
+	   SCORE,
+			        case
+				        when SCORE >=80 then 'A+'
+						when SCORE >=75 then 'A'
+						when SCORE >=70 then 'A-'
+						when SCORE >=65 then 'B+'
+						when SCORE >=60 then 'B'
+						when SCORE >=50 then 'B-'
+						when SCORE >=55 then 'C+'
+						when SCORE >=50 then 'C'
+						when SCORE >=45 then 'C-'
+						when SCORE >=40 then 'D'
+						else 'Failed'
+					end as Grade
+from students_grades
+order by SCORE desc
+
+--Q4. Show another column, how many students received each grade?
+
+
+select Grade, count(*) as same_grade_students
+from(
+	 select *,
+		           case
+				        when SCORE >=80 then 'A+'
+						when SCORE >=75 then 'A'
+						when SCORE >=70 then 'A-'
+						when SCORE >=65 then 'B+'
+						when SCORE >=60 then 'B'
+						when SCORE >=50 then 'B-'
+						when SCORE >=55 then 'C+'
+						when SCORE >=50 then 'C'
+						when SCORE >=45 then 'C-'
+						when SCORE >=40 then 'D'
+						else 'Failed'
+					end as Grade		
+
+from students_grades) x 
+group by Grade
+
